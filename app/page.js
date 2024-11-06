@@ -1,14 +1,21 @@
-
+"use client"
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React,{useState,useEffect} from "react";
 
-const Home = async () => {
-  let cities = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/cities`, {
-    range: "Sheet1!A:C",
-  });
-  cities = cities.data;
+const Home = () => {
+  const [companies, setCompanies] = useState([]);
+  useEffect(() => {
+    async function citDetails() {
+      let cities = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/cities`, {
+        range: "Sheet1!A:C",
+      });
+      cities = cities.data;
+      setCompanies(cities);
+    }
+    citDetails();
+  }, []);
   return (
     <div>
       <div className="bg-[--btn-bg] min-h-[95dvh] flex flex-col justify-center ">
@@ -36,8 +43,8 @@ const Home = async () => {
           Featured Agencies For Insurance
         </h1>
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
-          {cities &&
-            cities.map(([city, prompt,image]) => {
+          {companies &&
+            companies.map(([city, prompt,image]) => {
               const link = city.replaceAll(" ", "-");
               return (
                 <div className="border-[#d3d3d3] border-solid border-[1px] rounded-lg overflow-hidden">
