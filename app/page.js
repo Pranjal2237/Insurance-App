@@ -5,7 +5,7 @@ import Link from "next/link";
 import React from "react";
 
 const Home = async () => {
-  let cities = await axios.post("http://localhost:3000/api/cities", {
+  let cities = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/cities`, {
     range: "Sheet1!A:C",
   });
   cities = cities.data;

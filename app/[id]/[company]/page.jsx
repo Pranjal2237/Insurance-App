@@ -61,10 +61,10 @@ const page = () => {
   useEffect(() => {
     async function citDetails() {
       let city = await axios.get(
-        `http://localhost:3000/api/cities/${id}/${company}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/cities/${id}/${company}`
       );
       let similerInsurances = await axios.get(
-        `http://localhost:3000/api/cities/${id}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/cities/${id}`
       );
       similerInsurances = similerInsurances.data;
       setCompanies(similerInsurances);
