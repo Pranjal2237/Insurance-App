@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { logo } from '@/public';
 
 const Footer = async() => {
-  let cities=await axios.post('http://localhost:3000/api/cities',{range:"Sheet1!A:A"});
+  let cities=await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/cities`,{range:"Sheet1!A:A"});
   cities=cities.data;
   cities=cities.slice(1,61);
   return (

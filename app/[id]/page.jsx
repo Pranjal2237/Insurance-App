@@ -14,7 +14,7 @@ const page = () => {
   useEffect(() => {
     async function citDetails() {
       let city = await axios.get(
-        `http://localhost:3000/api/cities/${pathname}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/cities/${pathname}`
       );
       city = city.data;
       setCompanies(city);
