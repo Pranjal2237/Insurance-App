@@ -24,7 +24,7 @@ const Navigation = () => {
     >
       <div className="flex items-center gap-10">
         <div>
-          <Image src={logo} />
+          <Image src={logo} alt="/" />
         </div>
         {open && (
           <ul className="gap-8 absolute w-[100%] bg-[white] top-[6rem] left-0 sm:hidden">
@@ -36,6 +36,7 @@ const Navigation = () => {
             ].map(({ list, link }) => {
               return (
                 <Link
+                key={list}
                   href={link}
                   onClick={() => {
                     setActivePath(link);
@@ -43,6 +44,7 @@ const Navigation = () => {
                   }}
                 >
                   <li
+                  key={list}
                     style={
                       link == activePath
                         ? { color: "black" }
@@ -66,6 +68,7 @@ const Navigation = () => {
           ].map(({ list, link }) => {
             return (
               <Link
+              key={list}
                 href={link}
                 onClick={() => {
                   setActivePath(link);

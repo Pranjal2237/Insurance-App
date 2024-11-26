@@ -9,7 +9,7 @@ const Home = () => {
   useEffect(() => {
     async function citDetails() {
       let cities = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/cities`, {
-        range: "Sheet1!A:C",
+        range: "Top200!A:C",
       });
       cities = cities.data;
       setCompanies(cities);
