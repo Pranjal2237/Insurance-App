@@ -78,3 +78,9 @@ const Contact = () => {
 };
 
 export default Contact;
+
+export function generateMetadata({params}){
+  return{
+    title:"contact us"
+  }
+}

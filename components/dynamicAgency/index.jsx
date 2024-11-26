@@ -1,5 +1,4 @@
 "use client";
-import { categoryImage } from "@/public";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import Head from "next/head";
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -31,9 +31,8 @@ function SamplePrevArrow(props) {
   );
 }
 
-const page = () => {
-  let { company, id } = useParams();
-  const cityName = id.replaceAll("-", " ");
+const DynamicAgency= () => {
+  let { company} = useParams();
   const title = company.replaceAll("-", " ");
   const [companyDetails, setCompanyDetails] = useState({
     name: "",
@@ -49,6 +48,7 @@ const page = () => {
     openHours: "",
     serviceOptions: "",
     amenities: "",
+    cityname:""
   });
   const [companies, setCompanies] = useState([]);
   let openTimes=[];
@@ -61,13 +61,8 @@ const page = () => {
   useEffect(() => {
     async function citDetails() {
       let city = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/cities/${id}/${company}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/cities/insurance/${company}`
       );
-      let similerInsurances = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/cities/${id}`
-      );
-      similerInsurances = similerInsurances.data;
-      setCompanies(similerInsurances);
       city = city.data;
       const [details] = city;
       setCompanyDetails({
@@ -75,6 +70,7 @@ const page = () => {
         review: details[1],
         rating: details[2],
         address: details[3],
+        cityname:details[4],
         category: details[5],
         website: details[6],
         contact: details[7],
@@ -88,6 +84,19 @@ const page = () => {
     }
     citDetails();
   }, [company]);
+  useEffect(()=>{
+    async function citDetails(){
+      if(companyDetails?.cityname.length>0)
+      {
+      let similerInsurances = await axios.get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/cities/${companyDetails?.cityname}`
+      );
+      similerInsurances = similerInsurances.data;
+      setCompanies(similerInsurances);
+    }
+    }
+    citDetails()
+  },[companyDetails.cityname])
   const settings = {
     dots: true,
     infinite: true,
@@ -113,7 +122,12 @@ const page = () => {
       },
     ],
   };
-  return (
+  return(
+<>
+    <Head key="company">
+      <title>123</title>
+      <meta name="description" content="hello" />
+    </Head>
     <div className="padding-inline">
       {companyDetails?.name?.length > 0 && (
         <div>
@@ -157,7 +171,7 @@ const page = () => {
               { key: "Address", value: companyDetails.address },
             ].map(({ key, value }) => {
               return (
-                <div className="flex justify-between p-[1rem] rounded-lg border-[#d3d3d3] border-solid border-[1px] hover:bg-[#d3d3d399]">
+                <div key={key} className="flex justify-between p-[1rem] rounded-lg border-[#d3d3d3] border-solid border-[1px] hover:bg-[#d3d3d399]">
                   <h2>{key}</h2>
                   <h2>{value}</h2>
                 </div>
@@ -169,7 +183,7 @@ const page = () => {
             {
               companyDetails?.services.split("\n").map((service)=>{
                 return(
-                  <div className="flex gap-4 items-center">
+                  <div key={service} className="flex gap-4 items-center">
                     <div className="w-[10px] h-[10px] bg-[#78d240] rounded-[50%]"></div>
                     <p>{service}</p>
                   </div>
@@ -183,7 +197,7 @@ const page = () => {
           <div className="lg:w-[45%] flex flex-col gap-4">
             {openTimes.length>0 && openTimes.map(({day,time}) => {
               return (
-                <div className="flex justify-between">
+                <div key={day} className="flex justify-between">
                   <div className="flex gap-4 items-center">
                     <div className="w-[10px] h-[10px] bg-[#78d240] rounded-[50%]"></div>
                     <p>{day}</p>
@@ -199,7 +213,7 @@ const page = () => {
             {
               companyDetails?.serviceOptions.split("\n").map((service)=>{
                 return(
-                  <div className="flex gap-4 items-center">
+                  <div key={service} className="flex gap-4 items-center">
                     <div className="w-[10px] h-[10px] bg-[#78d240] rounded-[50%]"></div>
                     <p>{service}</p>
                   </div>
@@ -212,7 +226,7 @@ const page = () => {
             {
               companyDetails?.amenities.split("\n").map((service)=>{
                 return(
-                  <div className="flex gap-4 items-center">
+                  <div key={service} className="flex gap-4 items-center">
                     <div className="w-[10px] h-[10px] bg-[#78d240] rounded-[50%]"></div>
                     <p>{service}</p>
                   </div>
@@ -223,7 +237,7 @@ const page = () => {
           {companies && (
             <>
               <h2 className="mt-[6rem] mb-[2rem] font-bold text-[2rem]">
-                NearBy {cityName}
+                NearBy {companyDetails?.cityname}
               </h2>
               <div className="">
                 <Slider {...settings}>
@@ -231,7 +245,7 @@ const page = () => {
                     ([name, review, rating, address, , category,,,,,image]) => {
                       let link = name?.replaceAll(" ", "_");
                       return (
-                        <div className="overflow-hidden rounded-lg border-[#d3d3d3] border-solid border-[1px] max-w-[410px]">
+                        <div key={name} className="overflow-hidden rounded-lg border-[#d3d3d3] border-solid border-[1px] max-w-[410px]">
                           <div className="w-[100%] overflow-hidden">
                             <Image
                               src={image}
@@ -252,7 +266,7 @@ const page = () => {
                             </div>
                             <p className="text-[#757676] text-sm">{address}</p>
                             <Link
-                              href={`/${id}/${link}`}
+                              href={`/agency/${link}`}
                               className="mt-4 text-[#6950f3] font-bold"
                             >
                               See More....
@@ -269,7 +283,8 @@ const page = () => {
         </div>
       )}
     </div>
+    </>
   );
 };
 
-export default page;
+export default DynamicAgency;

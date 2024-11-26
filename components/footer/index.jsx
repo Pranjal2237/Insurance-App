@@ -11,7 +11,7 @@ const Footer = () => {
     async function citDetails() {
       let cities = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/cities`,
-        { range: "Sheet1!A:A" }
+        { range: "Top200!A:A" }
       );
       cities = cities.data;
       cities = cities.slice(1, 61);
@@ -30,7 +30,7 @@ const Footer = () => {
             companies.map(([city]) => {
               const link = city.replaceAll(" ", "-");
               return (
-                <Link href={link}>
+                <Link key={city} href={link}>
                   <p className="text-sm mb-2 font-normal hover:underline">
                     {city}
                   </p>
@@ -51,7 +51,7 @@ const Footer = () => {
             { page: "Blog", link: "/" },
             { page: "Contact", link: "/contact-us" },
           ].map(({ page, link }) => (
-            <Link href={link} className="hover:underline">
+            <Link href={link} key={page}  className="hover:underline">
               <p>{page}</p>
             </Link>
           ))}
@@ -64,7 +64,7 @@ const Footer = () => {
             { social: "LinkedIn", link: "/" },
             { social: "Instagram", link: "/" },
           ].map(({ social, link }) => (
-            <Link href={link} className="hover:underline">
+            <Link href={link} key={social} className="hover:underline">
               <p>{social}</p>
             </Link>
           ))}

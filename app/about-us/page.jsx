@@ -47,3 +47,10 @@ const About = () => {
 };
 
 export default About;
+
+
+export function generateMetadata({params}){
+  return{
+    title:"about us"
+  }
+}
