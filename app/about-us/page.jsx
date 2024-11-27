@@ -39,9 +39,9 @@ const About = () => {
           trust us to guide you every step of the way.
         </p>
       </div>
-      <div className="bg-white p-10">
+      {/* <div className="bg-white p-10">
         <h3 className="min-w-max">Recent Posts</h3>
-      </div>
+      </div> */}
     </div>
   );
 };

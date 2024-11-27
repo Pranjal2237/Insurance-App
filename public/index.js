@@ -1,4 +1,4 @@
-export {default as logo} from './assets/99-logo.png';
+export {default as logo} from './assets/logo.png';
 export {default as categoryImage} from './assets/99-category.png';
 export {default as message} from './assets/message-lg.svg';
 export {default as phone} from './assets/phone-lg.svg';
