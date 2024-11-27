@@ -71,8 +71,8 @@ const Footer = () => {
         </div>
       </div>
       <div className="padding-inline py-4 flex justify-between">
-        <p className="text-[12px]">Copyright © 2024 99insuranceagency.com</p>
-        <p className="text-[12px]">Powered by 99insuranceagency.com</p>
+        <p className="text-[12px]">Copyright © 2024 beamalifeinsurance.com/</p>
+        <p className="text-[12px]">Powered by beamalifeinsurance.com/</p>
       </div>
     </div>
   );
