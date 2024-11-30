@@ -20,9 +20,9 @@ const Home = () => {
     <div>
       <div className="bg-[--btn-bg] min-h-[95dvh] flex flex-col justify-center ">
         <div className="padding-inline max-w-[100%] sm:max-w-[60%]">
-          <h2 className="text-[--btn-color] font-bold text-base uppercase">
+          {/* <h2 className="text-[--btn-color] font-bold text-base uppercase">
             Welcome to 99insuranceagency.com
-          </h2>
+          </h2> */}
           <h1 className="mb-8 font-extrabold text-4xl leading-[1.25em] sm:text-5xl">
             Your Trusted Insurance Agency Directory
           </h1>
