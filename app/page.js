@@ -4,12 +4,16 @@ import Image from "next/image";
 import Link from "next/link";
 import React,{useState,useEffect} from "react";
 
-const Home = () => {
+const Home = ({ searchParams }) => {
   const [companies, setCompanies] = useState([]);
   useEffect(() => {
     async function citDetails() {
-      let cities = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/cities`, {
+      let origin=window.location.origin;
+      let values=await searchParams;
+     let sheetId=values["sheetId"];
+      let cities = await axios.post(`${origin}/api/cities`, {
         range: "Top200!A:C",
+        sheetId:sheetId
       });
       cities = cities.data;
       setCompanies(cities);

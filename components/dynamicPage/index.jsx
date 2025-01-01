@@ -5,16 +5,19 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-
-const DynamicPage = () => {
+const DynamicPage = ({sheetId}) => {
+  console.log(sheetId);
     let pathname = usePathname();
     const [companies, setCompanies] = useState([]);
     pathname = pathname.slice(1);
     const [title,setTitle]=useState(pathname.replaceAll("-", " "));
     useEffect(() => {
       async function citDetails() {
-        let city = await axios.get(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/api/cities/${pathname}`
+        let origin=window.location.origin;
+        let city = await axios.post(
+          `${origin}/api/cities/${pathname}`,{
+            sheetId:sheetId
+          }
         );
         city = city.data;
         setCompanies(city);

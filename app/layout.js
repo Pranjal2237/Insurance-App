@@ -19,12 +19,13 @@ export let metadata = {
 };
 
 export default function RootLayout({ children }) {
+    //  let sheetId=values["sheetId"];
   return (
     <html lang="en">
         <body>
           <Navigation />
           <main>{children}</main>
-          <Footer />
+          <Footer  />
         </body>
     </html>
   );

@@ -31,7 +31,7 @@ function SamplePrevArrow(props) {
   );
 }
 
-const DynamicAgency= () => {
+const DynamicAgency= ({sheetId}) => {
   let { company} = useParams();
   const title = company.replaceAll("-", " ");
   const [companyDetails, setCompanyDetails] = useState({
@@ -60,8 +60,11 @@ const DynamicAgency= () => {
   }
   useEffect(() => {
     async function citDetails() {
-      let city = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/cities/insurance/${company}`
+      let origin=window.location.origin;
+      let city = await axios.post(
+        `${origin}/api/cities/insurance/${company}`,{
+          sheetId:sheetId
+        }
       );
       city = city.data;
       const [details] = city;
@@ -88,8 +91,11 @@ const DynamicAgency= () => {
     async function citDetails(){
       if(companyDetails?.cityname.length>0)
       {
-      let similerInsurances = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/cities/${companyDetails?.cityname}`
+        let origin=window.location.origin;
+      let similerInsurances = await axios.post(
+        `${origin}/api/cities/${companyDetails?.cityname}`,{
+          sheetId:sheetId
+        }
       );
       similerInsurances = similerInsurances.data;
       setCompanies(similerInsurances);

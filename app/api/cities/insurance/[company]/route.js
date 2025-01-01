@@ -1,7 +1,8 @@
 import { google } from "googleapis";
 import { NextResponse } from "next/server";
 
-export async function GET(request,{params}) {
+export async function POST(request,{params}) {
+    const {sheetId}=await request.json();
     const searchValue=params.company.replaceAll('-',' ');
     const auth=new google.auth.GoogleAuth({
         credentials:{
@@ -15,7 +16,7 @@ export async function GET(request,{params}) {
     
     try{
         const response=await sheets.spreadsheets.values.get({
-            spreadsheetId:process.env.GOOGLE_SHEET_ID,
+            spreadsheetId:sheetId,
             range:'Data200!A:Z'
         })
         
