@@ -5,13 +5,24 @@ import axios from "axios";
 import Image from "next/image";
 import { logo } from "@/public";
 
-const Footer = () => {
+
+const Footer = ({sheetId}) => {
   const [companies, setCompanies] = useState([]);
   useEffect(() => {
     async function citDetails() {
+      let origin=window.location.origin;
+      let domainUrl=origin.split("//");
+      domainUrl=domainUrl[1];
+      const response = await axios.post(`${origin}/api/getSheetId`, {
+        domain: domainUrl,
+      });
+      let {sheetId}=response.data
+      console.log("footer",sheetId)
       let cities = await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/cities`,
-        { range: "Top200!A:A" }
+        `${origin}/api/cities`,
+        { range: "Top200!A:A",
+          sheetId:sheetId
+         }
       );
       cities = cities.data;
       cities = cities.slice(1, 61);

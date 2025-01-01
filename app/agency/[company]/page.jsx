@@ -3,10 +3,12 @@
 import { DynamicAgency } from "@/components";
 
 
-const page = () => {
+const page = async({searchParams}) => {
+  let values=await searchParams;
+  let sheetId=values["sheetId"];
   return(
 <>
-    <DynamicAgency />
+    <DynamicAgency sheetId={sheetId} />
     </>
   );
 };

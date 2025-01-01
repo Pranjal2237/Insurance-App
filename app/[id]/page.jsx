@@ -1,10 +1,12 @@
 
 import { DynamicPage } from "@/components";
 
-const page = () => {
+const page = async({ searchParams }) => {
+  let values=await searchParams;
+  let sheetId=values["sheetId"];
   return (
     <>
-      <DynamicPage />
+      <DynamicPage sheetId={sheetId} />
     </>
   );
 };
