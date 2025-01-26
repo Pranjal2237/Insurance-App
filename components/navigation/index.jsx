@@ -1,6 +1,6 @@
 "use client";
 
-import { logo } from "@/public";
+import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -9,22 +9,43 @@ import React, { useEffect, useState } from "react";
 const Navigation = () => {
   let pathname = usePathname();
   const [activePath, setActivePath] = useState(pathname);
+  const [logo,setLogo]=useState("");
   const [open, setOpen] = useState(false);
   useEffect(()=>{
-    setActivePath(pathname)
+    setActivePath(pathname);
   },[pathname])
+  useEffect(()=>{
+    async function citDetails() {
+      let origin=window.location.origin;
+      let domainUrl=origin.split("//");
+      domainUrl=domainUrl[1];
+      const response = await axios.post(`${origin}/api/getSheetId`, {
+        domain: domainUrl,
+      });
+      let {sheetId}=response.data
+      let aboutLogo=await axios.post(`${origin}/api/configs`,{
+        range:"Snapshot - Configs!B:B",
+        sheetId
+      })
+      aboutLogo=aboutLogo.data.splice(1)?.[0]?.[0];
+      setLogo(aboutLogo);
+    }
+    citDetails();
+  },[])
   return (
     <div
-      className="padding-inline flex justify-between items-center py-8  w-[100%]"
+      className="padding-inline flex justify-between items-center py-8 sticky z-20 top-0 w-[100%]"
       style={
         activePath == "/" || activePath == "/contact-us"
-          ? { position: "absolute" }
-          : { position: "static" }
+          ? { backgroundColor:"var(--btn-bg)" }
+          : { backgroundColor:"white" }
       }
     >
       <div className="flex items-center gap-10">
         <div>
-          <Image src={logo} alt="/" />
+          <Link href='/' >
+          <Image src={logo} alt="/" width={150} height={150} />
+          </Link>
         </div>
         {open && (
           <ul className="gap-8 absolute w-[100%] bg-[white] top-[6rem] left-0 sm:hidden">
@@ -96,7 +117,7 @@ const Navigation = () => {
             : { backgroundColor: "var(--btn-bg)" }
         }
       >
-        Call Us
+         List Your Business
       </button>
       <div
         className={`${open ? "nav_toggle active" : "nav_toggle"} sm:hidden`}

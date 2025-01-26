@@ -6,9 +6,9 @@ import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const DynamicPage = ({sheetId}) => {
-  console.log(sheetId);
     let pathname = usePathname();
     const [companies, setCompanies] = useState([]);
+    const [about,setAbout]=useState("");
     pathname = pathname.slice(1);
     const [title,setTitle]=useState(pathname.replaceAll("-", " "));
     useEffect(() => {
@@ -20,6 +20,11 @@ const DynamicPage = ({sheetId}) => {
           }
         );
         city = city.data;
+        let aboutCity=await axios.post( `${origin}/api/cities/${pathname}/about`,{
+          sheetId:sheetId
+        })
+        aboutCity=aboutCity.data;
+        setAbout(aboutCity);
         setCompanies(city);
       }
       citDetails();
@@ -29,6 +34,7 @@ const DynamicPage = ({sheetId}) => {
           <h1 className="mb-10 font-bold text-3xl leading-[1.25em]">
             Best {title}
           </h1>
+          <p className="mb-10">{about}</p>
           <div className="grid grid-cols-1 gap-[2.5rem] sm:grid-cols-2 lg:grid-cols-3">
             {companies &&
               companies.map(
@@ -56,7 +62,7 @@ const DynamicPage = ({sheetId}) => {
                         </div>
                         <p className="text-[#757676] text-sm">{address}</p>
                         <Link
-                          href={`/agency/${link}`}
+                          href={`/listing/${link}`}
                           className="mt-4 text-[#6950f3] font-bold"
                         >
                           See More....

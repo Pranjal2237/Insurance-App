@@ -2,7 +2,8 @@ import { google } from "googleapis";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
-    const {range,sheetId}=await request.json();
+    const {range,sheetId,filter}=await request.json();
+    const {start,end}=filter
     const auth=new google.auth.GoogleAuth({
         credentials:{
             client_email:process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -19,7 +20,7 @@ export async function POST(request) {
             range
         })
         let filterdata=response.data.values;
-        filterdata=filterdata.slice(1,31);
+        filterdata=filterdata.slice(start,end);
         return NextResponse.json(filterdata,{status:200});
     }
     catch(error){

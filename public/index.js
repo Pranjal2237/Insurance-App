@@ -7,3 +7,4 @@ export {default as twitterBlue} from './assets/twitter-md.svg';
 export {default as youtubeBlue} from './assets/youtube-md.svg';
 export {default as pinterestBlue} from './assets/pinterest-md.svg'
 export {default as contactBackground} from './assets/contact-background.svg'
+export {default as Email} from './assets/mail.png';
