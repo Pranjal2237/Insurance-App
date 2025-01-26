@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(request,{params}) {
     const {sheetId}=await request.json();
-    const searchValue=params.company.replaceAll('-',' ');
+    const searchValue=params.city.replaceAll('-',' ');
     const auth=new google.auth.GoogleAuth({
         credentials:{
             client_email:process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -17,14 +17,13 @@ export async function POST(request,{params}) {
     try{
         const response=await sheets.spreadsheets.values.get({
             spreadsheetId:sheetId,
-            range:'Snapshot - Listing!A:Z'
+            range:'Snapshot - Pages!A:C'
         })
         
         const data= response.data.values;
-        const filterdata=data.filter((row)=>{
-            let data=row[0]?.replaceAll("-"," ");
-            return data==searchValue
-        })
+        let filterdata=data.filter((row)=>row[0]==searchValue)
+        filterdata=filterdata?.[0]?.[1]
+        console.log(filterdata);
         return NextResponse.json(filterdata);
     }
     catch(error){

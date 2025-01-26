@@ -162,10 +162,10 @@ const DynamicAgency= ({sheetId}) => {
               className="w-[100%] rounded-lg"
             />
           </div>
-          <h2 className="mt-[6rem] mb-[2rem] font-bold text-[2rem]">About</h2>
+          <h2 className="mt-[6rem] mb-[2rem] font-bold text-[2rem]">About {companyDetails?.name}</h2>
           <p className="leading-[1.5rem]">{companyDetails.about}</p>
           <h2 className="mt-[6rem] mb-[2rem] font-bold text-[2rem]">
-            Services
+          {companyDetails?.name} Reviews, Prices, Services, Address, Photos
           </h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 ">
             {[
@@ -184,7 +184,7 @@ const DynamicAgency= ({sheetId}) => {
               );
             })}
           </div>
-          <h2 className="mt-[6rem] mb-[2rem] font-bold text-[2rem]">Services</h2>
+          <h2 className="mt-[6rem] mb-[2rem] font-bold text-[2rem]">Services Offered by {companyDetails?.name}</h2>
           <div className="flex flex-col gap-4">
             {
               companyDetails?.services.split("\n").map((service)=>{
