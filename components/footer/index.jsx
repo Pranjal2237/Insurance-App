@@ -12,6 +12,7 @@ const Footer = () => {
   const [email,setEmail]=useState("");
   const [keyword,setKeyWord]=useState("");
   const [url,setUrl]=useState("");
+  const [socialUrl,setSocialUrl]=useState({fbUrl:"/",ytUrl:"/",xUrl:"/",pUrl:"/"});
   const dateValue=new Date();
   const year=dateValue.getFullYear();
   useEffect(() => {
@@ -49,6 +50,27 @@ const Footer = () => {
         sheetId
       })
       aboutKeyWord=aboutKeyWord.data.splice(1)?.[0]?.[0];
+      let fbUrl=await axios.post(`${origin}/api/configs`,{
+        range:"Snapshot - Configs!S:S",
+        sheetId
+      })
+      fbUrl=fbUrl.data.splice(1)?.[0]?.[0];
+      let ytUrl=await axios.post(`${origin}/api/configs`,{
+        range:"Snapshot - Configs!W:W",
+        sheetId
+      })
+      ytUrl=ytUrl.data.splice(1)?.[0]?.[0];
+      let xUrl=await axios.post(`${origin}/api/configs`,{
+        range:"Snapshot - Configs!V:V",
+        sheetId
+      })
+      xUrl=xUrl.data.splice(1)?.[0]?.[0];
+      let pUrl=await axios.post(`${origin}/api/configs`,{
+        range:"Snapshot - Configs!U:U",
+        sheetId
+      })
+      pUrl=pUrl.data.splice(1)?.[0]?.[0];
+      setSocialUrl({fbUrl,ytUrl,xUrl,pUrl});
       setKeyWord(aboutKeyWord);
       setCompanies(cities);
       setLogo(aboutLogo);
@@ -89,16 +111,16 @@ const Footer = () => {
           </Link>
           </div>
           <div className="flex gap-[2rem]">
-            <Link href="/#">
+            <Link href={`https://${socialUrl.fbUrl}`}>
             <Image alt="/" src={facebookBlue} width={15} height={15} />
             </Link>
-            <Link href="/#">
+            <Link href={`https://${socialUrl.ytUrl}`}>
             <Image alt="/" src={youtubeBlue} width={15} height={15} />
             </Link>
-            <Link href="/#">
+            <Link href={`https://${socialUrl.xUrl}`}>
             <Image alt="/" src={twitterBlue} width={15} height={15} />
             </Link>
-            <Link href="/#">
+            <Link href={`https://${socialUrl.pUrl}`}>
             <Image alt="/" src={pinterestBlue} width={15} height={15} />
             </Link>
           </div>

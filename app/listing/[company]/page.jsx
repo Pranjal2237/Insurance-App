@@ -25,7 +25,7 @@ export async function generateMetadata({params,searchParams}){
   const year=date.getFullYear();
   let logo = await axios.post(
     `http://${url}/api/configs`,
-    { range: "Snapshot - Configs!B:B",
+    { range: "Snapshot - Configs!C:C",
       sheetId
      }
   );

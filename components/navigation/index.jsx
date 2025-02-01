@@ -11,6 +11,7 @@ const Navigation = () => {
   const [activePath, setActivePath] = useState(pathname);
   const [logo,setLogo]=useState("");
   const [open, setOpen] = useState(false);
+  const [docsUrl,setDocsUrl]=useState("/");
   useEffect(()=>{
     setActivePath(pathname);
   },[pathname])
@@ -28,7 +29,14 @@ const Navigation = () => {
         sheetId
       })
       aboutLogo=aboutLogo.data.splice(1)?.[0]?.[0];
+      let aboutdocs=await axios.post(`${origin}/api/configs`,{
+        range:"Snapshot - Configs!P:P",
+        sheetId
+      })
+      aboutdocs=aboutdocs.data.splice(1)?.[0]?.[0];
+      setDocsUrl(aboutdocs);
       setLogo(aboutLogo);
+      
     }
     citDetails();
   },[])
@@ -109,6 +117,7 @@ const Navigation = () => {
           })}
         </ul>
       </div>
+      <Link href={docsUrl}>
       <button
         className="hidden text-[--btn-color] py-4 px-8 rounded-lg font-bold sm:block"
         style={
@@ -119,6 +128,7 @@ const Navigation = () => {
       >
          List Your Business
       </button>
+      </Link>
       <div
         className={`${open ? "nav_toggle active" : "nav_toggle"} sm:hidden`}
         onClick={() => {

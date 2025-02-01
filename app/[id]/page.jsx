@@ -15,10 +15,10 @@ const page = async({ searchParams }) => {
 export default page;
 
 
-export async function generateMetadata({searchParams}) {
-  let params = await searchParams;
-  let sheetId=params["sheetId"];
-  let url=params["url"];
+export async function generateMetadata({params,searchParams}) {
+  let paramsData = await searchParams;
+  let sheetId=paramsData["sheetId"];
+  let url=paramsData["url"];
   let title = await axios.post(
     `http://${url}/api/configs`,
     { range: "Snapshot - Configs!O:O",
@@ -26,20 +26,22 @@ export async function generateMetadata({searchParams}) {
      }
   );
   title = title?.data?.slice(1)?.[0]?.[0];
-  let keyword = await axios.post(
-    `http://${url}/api/configs`,
-    { range: "Snapshot - Configs!K:K",
-      sheetId
-     }
-  );
-  keyword = keyword?.data?.slice(1)?.[1]?.[0];
+  // let keyword = await axios.post(
+  //   `http://${url}/api/configs`,
+  //   { range: "Snapshot - Configs!K:K",
+  //     sheetId
+  //    }
+  // );
+  // keyword = keyword?.data?.slice(1)?.[1]?.[0];
+  let city=params.id.replaceAll("-"," ");
+  // keyword=keyword + " " + city;
   let date=new Date();
   const year=date.getFullYear();
-  title=title.replaceAll("[keyword]",keyword)
+  title=title.replaceAll("[keyword]",city)
   title=title.replaceAll("[current year]",year);
   let logo = await axios.post(
     `http://${url}/api/configs`,
-    { range: "Snapshot - Configs!B:B",
+    { range: "Snapshot - Configs!C:C",
       sheetId
      }
   );
