@@ -21,7 +21,7 @@ export async function POST(request,{params}) {
         })
         
         const data= response.data.values;
-        const filterdata=data.filter((row)=>row[4]==searchValue)
+        const filterdata=data.filter((row)=>row[4]?.toLowerCase()==searchValue?.toLowerCase())
         return NextResponse.json(filterdata);
     }
     catch(error){
